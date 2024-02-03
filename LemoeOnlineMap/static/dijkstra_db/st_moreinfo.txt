@@ -1,0 +1,155 @@
+柠萌町	Lemoe-ding	柠萌本町区	砂雪
+布蕾亚乐园	Brilliant Park	柠萌本町区	砂雪
+龙门北	Longmen North	柠萌本町区	砂雪
+夜之园	Night Park	西湖新区	雨夜
+元始湖	Yuanshi Lake	西湖新区	雨夜
+海潮门	Haichao Gate	西湖新区	雨夜,雨酱
+海之角	Haizhijiao	万里长沙区	雨夜,雨酱
+南浦渡	Nanpudu	万里长沙区	豌豆
+长沙北	Changsha North	万里长沙区	千雨
+茶溪海岸	Chaxi Coast	桃川密境区	橘耀,夏炽
+伏见桃山	Fujian Taoshan	桃川密境区	虎虎
+丹波桥	Danboqiao	桃川密境区	砂雪
+星河湾	Xinghe Bay	桃川密境区	彩虹
+瑞江	Ruijiang	桃川密境区	鱼调
+欧南街	O'Nan Street	柠萌本町区	砂雪
+西原	Xiyuan	容州区	鱼调,十月,星昼
+友谊南	Youyi South	柳田区	辽洪,企鹅
+柳田关	Liutianguan	柳田区	砂雪
+初岚	Chulan	柳田区	秋雪
+浪淘沙	Langtaosha	桃川密境区	淘淘
+墨染	Moran	桃川密境区	德丽莎
+画蝶湖	Huadie Lake	桃川密境区	雨夜
+织梦湾	Zhimeng Bay	桃川密境区	鱼调
+归舟塔	Guizhou Tower	千里石塘区	雨夜
+瀛洲	Yingzhou	千里石塘区	雨夜
+友谊北	Youyi North	柳田区	秋雪
+空山南	Kongshan South	容州区	空元
+容州中心	Rongzhou Center	容州区	辽洪,星球,砂雪
+长庆广场	Changqing Square	西湖新区	雨夜,雨阳
+潮锦新村	Chaojin Estate	西湖新区	雨夜
+珊湾	Coral Bay	歆州区	歆秋
+歆州中心	Xinzhou Center	歆州区	歆秋
+歆州北	Xinzhou North	歆州区	歆秋
+五六埠	Wuliubu	桃川密境区	豌豆
+麓湖南	Luhu Lake South	桃川密境区	彩虹
+晨光	Chenguang	桃川密境区	彩虹
+容海咀	Ronghaizui	容州区	辽洪
+云辉	Yunhui	容州区	——
+白上	Baishang	容州区	辽洪
+临殿	Lindian	容州区	辽洪,鱼调
+沙西哨塔	Shaxi Outpost	容州区	辽洪
+沙山界	Shashanjie	容州区	辽洪
+三山东	Sanshan East	容州区	砂雪
+海西三村	Haixi Estate No.3	容州区	砂雪
+秦川	Qinchuan	容州区	池州,砂雪
+三中河	Sanzhong River	容州区	辽洪
+龙门湾客厅	Longmen Bay Parlor	柳田区	砂雪
+洲际酒店	Intercontinential Hotel	桃川密境区	——
+麦块广场	Maikuai Square	容州区	辽洪,暗黑
+采沙场	Sand Quarry	容州区	辽洪
+秦川西	Qinchuan West	容州区	池州
+腕南桦林	Wannan Hualin	容州区	池州
+葵园	Sunflower Park	容州区	辽洪,鱼调
+追梦街	Dreameatical Street	西湖新区	雨夜
+久隆	Jiulong	千里石塘区	虎虎, 铁总
+九段沙	Jiuduansha	千里石塘区	十月
+钢铁厂	Steel Plant	千里石塘区	铁总
+浅夏花海	Qianxia Huahai	柠萌本町区	砂雪,彩虹
+华阳	Huayang	东北地方	彩虹
+建材城	Building Material City	东北地方	彩虹
+烟波湖	Yanbo Lake	歆州区	歆秋
+洛花谷	Luohua Valley	西湖新区	雨夜
+兴业	Xingye	西湖新区	雨夜
+琅嬛洞	Langhuan Cave	西湖新区	雨夜
+嘉墨园	Jiamo Park	西湖新区	雨夜
+花涧渡	Huajian Pier	西湖新区	长歌
+晨岛	Isle of Dawn	柠萌本町区	——
+海心岛	Haixin Island	桃川密境区	砂雪
+流花亭	Liuhuating	万里长沙区	砂雪
+天蝎桥	Tianxieqiao	万里长沙区	鱼调
+沙安街	Sha'an Street	万里长沙区	砂雪
+瀛洲南	Yingzhou South	千里石塘区	——
+香子兰路	Vanilla Road	柠萌本町区	砂雪
+鸣海町	Minghaiding	柠萌本町区	砂雪
+花语街	Huayu Street	柠萌本町区	砂雪
+风之子海岸	Fengzhizi Coast	柠萌本町区	砂雪
+夕月亭	Xiyueting	柠萌本町区	砂雪
+雪鲤湾	Xueli Bay	柠萌本町区	砂雪
+白下海岸	Baixia Coast	容州区	砂雪
+三山林场	Sanshan Forest Field	容州区	辽洪
+新林东	Xinlin East	容州区	辽洪,企鹅
+龙津路	Longjin Road	桑梓川区	砂雪
+蛟塘	Jiaotang	桑梓川区	砂雪
+桑梓川	Sangzichuan	桑梓川区	砂雪
+墨汐镇	Moxi Town	桑梓川区	砂雪
+永平	Yongping	西湖新区	雨阳
+昌平路	Changping Road	西湖新区	雨夜
+芳甸路	Fangdian Road	西湖新区	雨夜
+望乡关	Wangxiangguan	西湖新区	雨夜
+七里咀	Qilizui	秋露区	砂雪
+殿海	Dianhai	秋露区	鱼调
+英街塘	Yingjietang	秋露区	砂雪
+枫糖湖	Maplesugar Lake	秋露区	砂雪
+秋宁	Qiuning	秋露区	砂雪
+秋露町	Qiuluding	秋露区	砂雪
+花漫里大街	Huamanli Boulevard	秋露区	砂雪
+闻涛港	Wentao Harbor	西湖新区	橘耀,鱼调
+融雪河	Rongxue River	西湖新区	雨夜
+立春海岸	Liptsun Coast	西湖新区	雨夜
+黑森林公园	Blackwood Park	歆州区	歆秋
+默春路	Mochun Road	歆州区	歆秋
+林堤	Lin Causeway	西湖新区	雨夜
+延光台	Yanguang Pavilion	西湖新区	松鼠,雨夜
+潮锦路	Chaojin Road	西湖新区	雨酱
+海之角北	Haizhijiao North	万里长沙区	雨酱
+上余大道	Upper Yuhang Avenue	余杭区	雨酱
+余杭新城	Yuhang New City	余杭区	雨酱
+西原桦林	Xiyuan Hualin	容州区	辽洪
+万花涧	Wanhuajian	容州区	砂雪
+容坤关	Rongkunguan	容州区	辽洪,砂雪
+松林	Songlin	沄山区	雨夜,鱼干
+桃川广场	Taochuan Square	桃川密境区	雨夜
+桦溪	Huaxi	柳田区	企鹅
+歆州北	Xinzhou North	歆州区	歆秋
+绿间沙	Lyujiansha	容州区	池州
+海西三村西	Haixi Estate No.3 West	容州区	——
+秦三路	Qinsan Road	容州区	——
+三山环岛	Sanshan Roundabout	容州区	——
+金顶阁	Jindingge	容州区	陌辰
+坑口	Kenggkou	容州区	——
+望海	Wanghai	望海区	笑猫,企鹅
+葵山湖	Kuishan Lake	容州区	辽洪
+葵园东	Sunflower Garden East	容州区	?
+心桥	Xinqiao	大宁区	砂雪
+鲸海	Whale Sea	大宁区	砂雪
+大宁	Daning	大宁区	砂雪
+竹樱海	Zhuyinghai	大宁区	砂雪
+绯御川	Feiyuchuan	桑梓川区	砂雪
+风铃谷	Fengling Valley	桑梓川区	砂雪
+墨雅湖	Moya Lake	桑梓川区	砂雪
+沙河北	Shahe North	容州区	辽洪
+沙河大道	Shahe Avenue	容州区	辽洪
+万盛林	Wansheng Forest	容州区	辽洪
+万源	Wanyuan	容州区	辽洪
+凝溪	Ningxi	高轮区	砂雪
+火药厂	Gunpowder Factory	仙狐列岛区	砂雪
+仙狐	Xianhu	仙狐列岛区	砂雪
+那垅	Nalong	东北地方	砂雪
+后湾	Houwan Bay	东北地方	砂雪
+仙栖海	Xianqihai	东北地方	砂雪
+璇玑海	Xuanjihai	仙狐列岛区	砂雪
+海神宫	Haishen Palace	仙狐列岛区	砂雪
+玉衡岛	Yuheng Island	仙狐列岛区	砂雪
+开阳岛	Kaiyang Island	仙狐列岛区	砂雪
+摇光岛	Yaoguang Island	仙狐列岛区	砂雪
+松林一村	Songlin Estate No.1	沄山区	雨夜
+松林二村	Songlin Estate No.2	沄山区	雨夜
+沄山北镇	North Yunshan Town	沄山区	雨夜
+芷兰湖	Zhilan Lake	高轮区	彩虹
+上新河	Shangxin River	高轮区	彩虹
+别野	Bieye	高轮区	彩虹
+玳瑁湾	Turtle Bay	余杭区	雨酱
+鸢儿岭	Yuan'er Mountains	万里长沙区	砂雪
+沙湾海岸	Shawan Coast	万里长沙区	砂雪
+
