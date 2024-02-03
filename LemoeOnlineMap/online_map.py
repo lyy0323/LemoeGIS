@@ -69,12 +69,13 @@ def index():
     districts_layer = folium.FeatureGroup(name='行政区', show=True)
     districts = os.listdir('./static/geo_objects/districts')
     districts.remove('districts_shapesheet.txt')
+    districts_color_dict = {}
     for district in districts:
         popup_html = f'<span width=100%><div align="center" style="border-radius: 5px; padding: 5px; font-size: 0.7em; flex: 1"><b>{district.strip(".geojson")}</b></div></span>'
         shp_data = open(f'./static/geo_objects/districts/{district}', encoding='UTF-8').read()
-        clr = str(json.loads(shp_data)["features"][0]["properties"]["fill_color"])
+        districts_color_dict[district] = json.loads(shp_data)["features"][0]["properties"]["fill_color"]
         shp = folium.GeoJson(shp_data,
-                             style_function=lambda feature: {"fill": True, "fillColor": clr, "fillOpacity": 0.3, "color": "#FFFFFF", "opacity": 0.7},
+                             style_function=lambda x: {"fill": True, "fillColor": x["properties"]["fill_color"], "fillOpacity": 0.5, "color": "#FFFFFF", "opacity": 0.7},
                              popup=folium.GeoJsonPopup(fields=["district_name"], aliases=[popup_html], labels=True, style='font-family: Microsoft Yahei'))
         shp.add_to(districts_layer)
 
