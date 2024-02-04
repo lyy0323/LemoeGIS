@@ -48,7 +48,7 @@ def bk_or_w(deep):
 
 _default_js = [
     ('leaflet',
-     'https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.js'),
+     'https://cdn.staticfile.net/leaflet/1.6.0/leaflet.js'),
     ('jquery',
      'https://code.jquery.com/jquery-1.12.4.min.js'),
     ('bootstrap',
@@ -61,7 +61,7 @@ _default_js = [
 
 _default_css = [
     ('leaflet_css',
-     'https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.css'),
+     'https://cdn.staticfile.net/leaflet/1.6.0/leaflet.css'),
     ('bootstrap_css',
      'https://cdn.staticfile.org/twitter-bootstrap/3.2.0/css/bootstrap.min.css'),
     ('bootstrap_theme_css',
@@ -71,7 +71,7 @@ _default_css = [
     ('awesome_markers_css',
      'https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css'),  # noqa
     ('awesome_rotate_css',
-     'https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css'),  # noqa
+     '/static/leaflet.awesome.rotate.min.css'),  # noqa
     ('close',
      '/static/close.css')
     ]
