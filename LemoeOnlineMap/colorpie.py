@@ -1,7 +1,7 @@
 from typing import Union
 
 
-def rtx(rgb: tuple[int, int, int]) -> str:
+def rtx(rgb: tuple) -> str:
     """Converts RGB color to HEX color.
 
     Args:
@@ -26,7 +26,7 @@ def xtr(x: str) -> tuple:
     return tuple(int(x[i: i + 2], 16) for i in range(0, 6, 2))
 
 
-def avg(*colors: Union[str, tuple[int, int, int]]):
+def avg(*colors: Union[str, tuple]):
     """
     Gives an average of all input colors.
 
