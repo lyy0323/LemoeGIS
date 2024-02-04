@@ -105,7 +105,7 @@ def isDeep(cl):
     elif cl[1] > 204:
         return False
     else:
-        if (sum(list(map(lambda x: x ** 2, cl))) / 3) ** 0.5 < 128:
+        if (sum(list(map(lambda x: x ** 2, cl))) / 3) ** 0.5 < 160:
             return 1
         else:
             return 0
