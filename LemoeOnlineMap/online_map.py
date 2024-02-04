@@ -47,7 +47,7 @@ def index():
         <div margin: 8px><b>&ensp;{st_info[1]}（地铁站）</b><br></div><span width=100%>'''
         for metro_line in eval(st_info[2]):
             try:
-                popup_html_addit = f'''<div align="center" style="background: {metro_color_dict[metro_line]}; border-radius: 5px; color: {bk_or_w(isDeep(metro_color_dict[metro_line]))}; padding: 5px; font-size: 0.7em; flex: 1"><b>{metro_line}</b></div>'''
+                popup_html_addit = f'''<div align="center" style="background: {metro_color_dict[metro_line]}; border-radius: 0.5em; border: 0.1em; color: {bk_or_w(isDeep(metro_color_dict[metro_line]))}; padding: 5px; font-size: 0.7em; flex: 1"><b>{metro_line}</b></div>'''
                 popup_html += popup_html_addit
             except:
                 continue
@@ -60,7 +60,7 @@ def index():
     filenames = os.listdir('./static/geo_objects/metro/lines_view')
     for filename in filenames:
         linename = filename.strip('.geojson')
-        popup_html = f'<span width=100%><div align="center" style="background: {metro_color_dict[linename]}; border-radius: 5px; color: {bk_or_w(isDeep(metro_color_dict[linename]))}; padding: 5px; font-size: 0.7em; flex: 1"><b>{linename}</b></div></span>'
+        popup_html = f'<span width=100%><div align="center" style="background: {metro_color_dict[linename]}; border-radius: 5px; color: {bk_or_w(isDeep(metro_color_dict[linename]))}; padding: 5px; font-size: 1em; flex: 1"><b>{linename}</b></div></span>'
         folium.GeoJson(open(f'./static/geo_objects/metro/lines_view/{filename}', encoding='UTF-8').read(), popup=folium.GeoJsonPopup(fields=['ends'], aliases=[popup_html], labels=True, style='font-family: Microsoft Yahei'), style_function=lambda x: {"color": "#ffffff", "weight": 6, "opacity": 0.5}).add_to(metro_lines)
         folium.GeoJson(open(f'./static/geo_objects/metro/lines_view/{filename}', encoding='UTF-8').read(), popup=folium.GeoJsonPopup(fields=['ends'], aliases=[popup_html], labels=True, style='font-family: Microsoft Yahei'), style_function=lambda x: {"color": rtx(tuple(x['properties']['color'])), "weight": 3, "opacity": 0.9}).add_to(metro_lines)
         # folium.GeoJson(f'./static/geo_objects/metro/lines_view/{filename}', popup=folium.Popup(popup_html, parse_html=False, max_width=500), style_function=lambda x: {"color": rtx(tuple(x['properties']['color']))}).add_to(metro_lines)
@@ -69,11 +69,10 @@ def index():
     districts_layer = folium.FeatureGroup(name='行政区', show=True)
     districts = os.listdir('./static/geo_objects/districts')
     districts.remove('districts_shapesheet.txt')
-    districts_color_dict = {}
     for district in districts:
-        popup_html = f'<span width=100%><div align="center" style="border-radius: 5px; padding: 5px; font-size: 0.7em; flex: 1"><b>{district.strip(".geojson")}</b></div></span>'
         shp_data = open(f'./static/geo_objects/districts/{district}', encoding='UTF-8').read()
-        districts_color_dict[district] = json.loads(shp_data)["features"][0]["properties"]["fill_color"]
+        district_data = json.loads(shp_data)["features"][0]["properties"]
+        popup_html = f'<span width=100%><div align="center" style="border-radius: 0.5em; padding: 0.5em; background: {district_data["fill_color"]}; font-size: 1em; flex: 1"><b>{district_data["district_ID"]}</b></div></span>'
         shp = folium.GeoJson(shp_data,
                              style_function=lambda x: {"fill": True, "fillColor": x["properties"]["fill_color"], "fillOpacity": 0.5, "color": "#FFFFFF", "opacity": 0.7},
                              popup=folium.GeoJsonPopup(fields=["district_name"], aliases=[popup_html], labels=True, style='font-family: Microsoft Yahei'))
@@ -105,7 +104,8 @@ def index():
     metro_stations.add_to(m)
     metro_stations_name.add_to(m)
     folium.LayerControl().add_to(m)
-    return m._repr_html_()
+    # return m._repr_html_()
+    return m.get_root().render()
 
 
 if __name__ == '__main__':
