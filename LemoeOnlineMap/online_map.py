@@ -83,8 +83,8 @@ def index():
     m: Map = folium.Map(location=[0, 0],
                         tiles=tiles,
                         attr="<a href=http://lemoe.town/>lemoe town</a>",
-                        zoom_start=3,
-                        max_zoom=8,
+                        zoom_start=4,
+                        max_zoom=7,
                         min_zoom=1,
                         crs='Simple',
                         height='100%')

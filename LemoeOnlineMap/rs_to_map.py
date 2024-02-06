@@ -23,7 +23,7 @@ def parse_image(rspic, x_start=0, y_start=0):
                     pic = pic.resize((256, 256))
                 pic.save(f'./static/map_db/{z}/{-(scale + 1) // 2 + x + 1}/{-(scale + 1) // 2 + y + 1}.webp')
         size_now = size_now // 2
-        if size_now < 256: break
+        if size_now < 128: break
     return
 
 
