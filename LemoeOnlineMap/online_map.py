@@ -84,7 +84,7 @@ def index():
                         tiles=tiles,
                         attr="<a href=http://lemoe.town/>lemoe town</a>",
                         zoom_start=3,
-                        max_zoom=6,
+                        max_zoom=8,
                         min_zoom=1,
                         crs='Simple',
                         height='100%')
@@ -136,6 +136,38 @@ def index():
                              popup=folium.GeoJsonPopup(fields=["district_name"], aliases=[popup_html], labels=True, style='font-family: Microsoft Yahei; font-size: 1.6em; font-weight: bolder'))
         shp.add_to(districts_layer)
 
+    # 据点
+    home_layer = folium.FeatureGroup(name='据点', show=True)
+    # 据点名称
+    home_layer1 = folium.FeatureGroup(name='据点名称', show=False)
+    # 据点坐标集
+    home_info = {}
+    homes = os.listdir('./static/geo_objects/homes')
+    for home in homes:
+        home_data = open(f'./static/geo_objects/homes/{home}', encoding='UTF-8').read()
+        home_coord = json.loads(home_data)["features"][0]["geometry"]["coordinates"]
+        home_coord1 = [int(home_coord[0] * 64), int(home_coord[1] * -64)]
+        home_coord.reverse()
+        home_name = home.strip('.geojson')
+        if tuple(home_coord1) not in home_info.keys():
+            home_info[tuple(home_coord1)] = {"loc": home_coord, "name": home_name}
+        else:
+            if type(home_info[tuple(home_coord1)]["name"]) is list:
+                home_info[tuple(home_coord1)]["name"].append(home_name)
+            else:
+                home_info[tuple(home_coord1)]["name"] = [home_info[tuple(home_coord1)]["name"], home_name]
+    for loca, data in home_info.items():
+        if type(data['name']) is str:
+            popup_html = f'<span width=100%><div align="center" style="border-radius: 0.5em; padding: 0.2em; font-size: 1em; flex: 1">{data["name"]}<br>{int(loca[0])}, {int(loca[1])}</div></span>'
+            folium.Marker(data["loc"], popup=folium.Popup(popup_html, parse_html=False, max_width=300), icon=folium.features.CustomIcon("./static/home_icon.png", (20, 20))).add_to(home_layer)
+            folium.Marker(data["loc"], icon=folium.features.DivIcon(icon_size=(12 + 15 * len(data["name"]), 20), html=f'<div style="text-align: left; font-size: 15px; padding: 4px; border-radius: 10px; background-color: rgba(0, 0, 0, 0.8); font-family: 黑体; color: rgba(0, 0, 0, 0)">{data["name"]}</div>', icon_anchor=(-15, 14))).add_to(home_layer1)
+            folium.Marker(data["loc"], icon=folium.features.DivIcon(icon_size=(12 + 15 * len(data["name"]), 20), html=f'<div style="text-align: left; font-size: 15px; padding: 4px; font-family: 黑体; color: #DDD">{data["name"]}</div>', icon_anchor=(-16, 14))).add_to(home_layer1)
+        else:
+            popup_html = f'<span width=100%><div align="center" style="border-radius: 0.5em; padding: 0.2em; font-size: 1em; flex: 1">{"、".join(data["name"])}<br>{int(loca[0])}, {int(loca[1])}</div></span>'
+            folium.Marker(data["loc"], popup=folium.Popup(popup_html, parse_html=False, max_width=300), icon=folium.features.CustomIcon("./static/home_icon.png", (20, 20))).add_to(home_layer)
+            folium.Marker(data["loc"], icon=folium.features.DivIcon(icon_size=(12 + 15 * len("、".join(data["name"])), 20), html=f'<div style="text-align: left; font-size: 15px; padding: 4px; border-radius: 10px; background-color: rgba(0, 0, 0, 0.8); font-family: 黑体; color: rgba(0, 0, 0, 0)">{"、".join(data["name"])}</div>', icon_anchor=(-15, 14))).add_to(home_layer1)
+            folium.Marker(data["loc"], icon=folium.features.DivIcon(icon_size=(12 + 15 * len("、".join(data["name"])), 20), html=f'<div style="text-align: left; font-size: 15px; padding: 4px; font-family: 黑体; color: #DDD">{"、".join(data["name"])}</div>', icon_anchor=(-16, 14))).add_to(home_layer1)
+
     """folium.PolyLine(  # polyline方法为将坐标用实线形式连接起来
             [latlng(-910, 1080, 2048),
              latlng(-768, 888, 2048),
@@ -160,6 +192,8 @@ def index():
     metro_lines.add_to(m)
     metro_stations.add_to(m)
     metro_stations_name.add_to(m)
+    home_layer.add_to(m)
+    home_layer1.add_to(m)
     folium.LayerControl().add_to(m)
     m.default_css = _default_css
     m.default_js = _default_js
