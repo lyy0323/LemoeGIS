@@ -1,5 +1,4 @@
 import json
-
 import folium
 import folium.plugins as plugins
 import jinja2
@@ -8,6 +7,7 @@ from flask import Flask, render_template, request
 from colorpie import *
 from folium import Map
 from jinja2.environment import Template
+from grid import Grid
 import os
 
 app = Flask(__name__)
@@ -48,32 +48,38 @@ def bk_or_w(deep):
 
 _default_js = [
     ('leaflet',
-     'https://cdn.staticfile.net/leaflet/1.6.0/leaflet.js'),
+     '/static/js/leaflet.js'),
     ('jquery',
-     'https://code.jquery.com/jquery-1.12.4.min.js'),
+     '/static/js/jquery-1.12.4.min.js'),
     ('bootstrap',
-     'https://cdn.staticfile.org/twitter-bootstrap/3.2.0/js/bootstrap.min.js'),
+     '/static/js/bootstrap.min.js'),
     ('awesome_markers',
-     'https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js'),  # noqa
+     '/static/js/leaflet.awesome-markers.js'),  # noqa
     ('font-size',
-     '/static/font-size.js')
+     '/static/js/font-size.js'),
+    ('leaflet_draw',
+     '/static/js/leaflet.draw.js'),
+    ('grid-shift',
+     '/static/js/grid-shift.js')
     ]
 
 _default_css = [
     ('leaflet_css',
-     'https://cdn.staticfile.net/leaflet/1.6.0/leaflet.css'),
+     '/static/css/leaflet.css'),
     ('bootstrap_css',
-     'https://cdn.staticfile.org/twitter-bootstrap/3.2.0/css/bootstrap.min.css'),
+     '/static/css/bootstrap.min.css'),
     ('bootstrap_theme_css',
-     'https://cdn.staticfile.org/twitter-bootstrap/3.2.0/css/bootstrap-theme.min.css'),  # noqa
+     '/static/css/bootstrap-theme.min.css'),  # noqa
     ('awesome_markers_font_css',
-     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css'),  # noqa
+     '/static/css/font-awesome.min.css'),  # noqa
     ('awesome_markers_css',
-     'https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css'),  # noqa
+     '/static/css/leaflet.awesome-markers.css'),  # noqa
     ('awesome_rotate_css',
-     '/static/leaflet.awesome.rotate.min.css'),  # noqa
+     '/static/css/leaflet.awesome.rotate.min.css'),  # noqa
+    ('leaflet-draw',
+     '/static/css/leaflet.draw.css'),
     ('close',
-     '/static/close.css')
+     '/static/css/close.css'),
     ]
 
 
@@ -200,6 +206,12 @@ def index():
     m.default_js = _default_js
     popup0 = LatLngPopup()
     popup0.add_to(m)
+    init_script = """
+        var mapsPlaceholder = [];
+        L.Map.addInitHook(function () {mapsPlaceholder.push(this);});
+    """
+    m.get_root().script.add_child(folium.Element(init_script))
+    Grid().add_to(m)
     return m.get_root().render()
 
 

@@ -1,0 +1,27 @@
+.leaflet-popup-close-button{
+    display: none
+    }
+.leaflet-popup-content{
+    margin: 0.5em
+}
+
+.leaflet-div-icon{
+    background: transparent;
+    border: none
+}
+
+#gridControl {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    z-index: 999;
+    background: white;
+    color: black;
+    padding: 6px;
+    border-radius: 4px;
+    font-family: 'Microsoft Yahei';
+    cursor: pointer;
+    font-size: 12px;
+    text-decoration: none;
+    top: 60px;
+}
