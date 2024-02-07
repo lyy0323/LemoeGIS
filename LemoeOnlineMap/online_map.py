@@ -87,6 +87,7 @@ def index():
                         max_zoom=7,
                         min_zoom=1,
                         crs='Simple',
+                        prefer_canvas=True,
                         height='100%')
     metro_stations = folium.FeatureGroup(name='地铁站', show=True)
     metro_stations_name = folium.FeatureGroup(name='地铁站名', show=False)
