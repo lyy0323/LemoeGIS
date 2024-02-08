@@ -70,6 +70,7 @@ class Grid(MacroElement):
                         lonLatGridLineLayer.clearLayers();
                         addLonLatLine();
                     });
+                    map.touchZoom.disable()
                    {% endmacro %}
                 """)
 
