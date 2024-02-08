@@ -109,7 +109,7 @@ def index():
     for st in sts:
         st_info = st.split('\t')
         popup_html = f'''<div align="center" padding: 0.2em style="font-size: 1.5em">
-        <div margin: 0.2em><b>&ensp;{st_info[1]}（地铁站）</b><br></div><span width=100%>'''
+        <div margin: 0.2em><b>&ensp;{st_info[1]}</b>（地铁站）<br></div><span width=100%>'''
         for metro_line in eval(st_info[2]):
             try:
                 popup_html_addit = f'''<div align="center" style="background: {metro_color_dict[metro_line]}; border-radius: 0.5em; border: 0.2em; color: {bk_or_w(isDeep(metro_color_dict[metro_line]))}; padding: 0.2em; font-size: 1em; flex: 1"><b>{metro_line}</b></div>'''
@@ -165,12 +165,12 @@ def index():
                 home_info[tuple(home_coord1)]["name"] = [home_info[tuple(home_coord1)]["name"], home_name]
     for loca, data in home_info.items():
         if type(data['name']) is str:
-            popup_html = f'<span width=100%><div align="center" style="border-radius: 0.5em; padding: 0.2em; font-size: 1em; flex: 1">{data["name"]}<br>{int(loca[0])}, {int(loca[1])}</div></span>'
+            popup_html = f'<span width=100%><div align="center" style="border-radius: 0.5em; padding: 0.2em; font-size: 1em; flex: 1">{"&ensp;" * ("（" in data["name"])}{data["name"]}<br>{int(loca[0])}, {int(loca[1])}</div></span>'
             folium.Marker(data["loc"], popup=folium.Popup(popup_html, parse_html=False, max_width=300), icon=folium.features.CustomIcon("./static/home_icon.png", (20, 20))).add_to(home_layer)
             folium.Marker(data["loc"], icon=folium.features.DivIcon(icon_size=(12 + 15 * len(data["name"]), 20), html=f'<div style="text-align: left; font-size: 15px; padding: 4px; border-radius: 10px; background-color: rgba(0, 0, 0, 0.8); font-family: 黑体; color: rgba(0, 0, 0, 0)">{data["name"]}</div>', icon_anchor=(-15, 14))).add_to(home_layer1)
             folium.Marker(data["loc"], icon=folium.features.DivIcon(icon_size=(12 + 15 * len(data["name"]), 20), html=f'<div style="text-align: left; font-size: 15px; padding: 4px; font-family: 黑体; color: #DDD">{data["name"]}</div>', icon_anchor=(-16, 14))).add_to(home_layer1)
         else:
-            popup_html = f'<span width=100%><div align="center" style="border-radius: 0.5em; padding: 0.2em; font-size: 1em; flex: 1">{"、".join(data["name"])}<br>{int(loca[0])}, {int(loca[1])}</div></span>'
+            popup_html = f'<span width=100%><div align="center" style="border-radius: 0.5em; padding: 0.2em; font-size: 1em; flex: 1">{"&ensp;" * ("（" in data["name"])}{"、".join(data["name"])}<br>{int(loca[0])}, {int(loca[1])}</div></span>'
             folium.Marker(data["loc"], popup=folium.Popup(popup_html, parse_html=False, max_width=300), icon=folium.features.CustomIcon("./static/home_icon.png", (20, 20))).add_to(home_layer)
             folium.Marker(data["loc"], icon=folium.features.DivIcon(icon_size=(12 + 15 * len("、".join(data["name"])), 20), html=f'<div style="text-align: left; font-size: 15px; padding: 4px; border-radius: 10px; background-color: rgba(0, 0, 0, 0.8); font-family: 黑体; color: rgba(0, 0, 0, 0)">{"、".join(data["name"])}</div>', icon_anchor=(-15, 14))).add_to(home_layer1)
             folium.Marker(data["loc"], icon=folium.features.DivIcon(icon_size=(12 + 15 * len("、".join(data["name"])), 20), html=f'<div style="text-align: left; font-size: 15px; padding: 4px; font-family: 黑体; color: #DDD">{"、".join(data["name"])}</div>', icon_anchor=(-16, 14))).add_to(home_layer1)

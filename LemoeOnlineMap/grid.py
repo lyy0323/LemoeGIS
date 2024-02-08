@@ -58,7 +58,7 @@ class Grid(MacroElement):
                                 let text = (index * -64).toFixed(0);
                                 let divIcon = L.divIcon({
                                     html: `<div class="grid" style="color:#000;">${text}</div>`,
-                                    iconAnchor: [(text.length + 1) * 6, 0],
+                                    iconAnchor: [(text.length + 1) * 9, 0],
                                 });
                                 let textMarker = L.marker([index, east], {icon: divIcon});
                                 lonLatGridLineLayer.addLayer(textMarker);
