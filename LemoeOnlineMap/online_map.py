@@ -92,6 +92,11 @@ def index():
                         zoom_start=4,
                         max_zoom=7,
                         min_zoom=1,
+                        max_bounds=True,
+                        min_lot=-64,
+                        max_lot=64,
+                        min_lat=-128,
+                        max_lat=128,
                         crs='Simple',
                         prefer_canvas=True,
                         height='100%')
