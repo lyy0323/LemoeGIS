@@ -47,39 +47,27 @@ def bk_or_w(deep):
 
 
 _default_js = [
-    ('leaflet',
-     '/static/js/leaflet.js'),
-    ('jquery',
-     '/static/js/jquery-1.12.4.min.js'),
-    ('bootstrap',
-     '/static/js/bootstrap.min.js'),
-    ('awesome_markers',
-     '/static/js/leaflet.awesome-markers.js'),  # noqa
-    ('font-size',
-     '/static/js/font-size.js'),
-    ('leaflet_draw',
-     '/static/js/leaflet.draw.js'),
-    ('grid-shift',
-     '/static/js/grid-shift.js')
+    ('leaflet', '/static/js/leaflet.js'),
+    ('jquery', '/static/js/jquery-1.12.4.min.js'),
+    ('bootstrap', '/static/js/bootstrap.min.js'),
+    ('awesome_markers', '/static/js/leaflet.awesome-markers.js'),  # noqa
+    ('font-size', '/static/js/font-size.js'),
+    ('leaflet_draw', '/static/js/leaflet.draw.js'),
+    ('grid-shift', '/static/js/grid-shift.js'),
+    # ('leaf_search', '/static/js/leaf.search.js')
     ]
 
 _default_css = [
-    ('leaflet_css',
-     '/static/css/leaflet.css'),
-    ('bootstrap_css',
-     '/static/css/bootstrap.min.css'),
-    ('bootstrap_theme_css',
-     '/static/css/bootstrap-theme.min.css'),  # noqa
-    ('awesome_markers_font_css',
-     '/static/css/font-awesome.min.css'),  # noqa
-    ('awesome_markers_css',
-     '/static/css/leaflet.awesome-markers.css'),  # noqa
-    ('awesome_rotate_css',
-     '/static/css/leaflet.awesome.rotate.min.css'),  # noqa
-    ('leaflet-draw',
-     '/static/css/leaflet.draw.css'),
-    ('close',
-     '/static/css/close.css'),
+    ('leaflet_css', '/static/css/leaflet.css'),
+    ('bootstrap_css', '/static/css/bootstrap.min.css'),
+    ('bootstrap_theme_css', '/static/css/bootstrap-theme.min.css'),  # noqa
+    ('awesome_markers_font_css', '/static/css/font-awesome.min.css'),  # noqa
+    ('awesome_markers_css', '/static/css/leaflet.awesome-markers.css'),  # noqa
+    ('awesome_rotate_css', '/static/css/leaflet.awesome.rotate.min.css'),  # noqa
+    ('leaflet-draw', '/static/css/leaflet.draw.css'),
+    ('close', '/static/css/close.css'),
+    # ('leaflet_search', '/static/css/leaflet-search.css'),
+    # ('leaflet-search-mobile', '/static/css/leaflet-search.mobile.css'),
     ]
 
 
@@ -125,7 +113,10 @@ def index():
         folium.Marker(latlng(int(st_info[3]), int(st_info[4])), popup=folium.Popup(popup_html, parse_html=False, max_width=300), icon=folium.features.CustomIcon("./static/lemoe_icon.png", (20, 20))).add_to(metro_stations)
         folium.Marker(latlng(int(st_info[3]), int(st_info[4])), icon=folium.features.DivIcon(icon_size=(12 + 15 * len(st_info[1]), 20), html=f'<div style="text-align: left; font-size: 15px; padding: 4px; border-radius: 10px; background-color: rgba(51, 51, 51, 0.8); font-family: 黑体; color: rgba(0, 0, 0, 0)">{st_info[1]}</div>', icon_anchor=(-15, 14))).add_to(metro_stations_name)
         folium.Marker(latlng(int(st_info[3]), int(st_info[4])), popup=folium.Popup(popup_html, lazy=True, parse_html=False, max_width=500), icon=folium.features.DivIcon(icon_size=(12 + 15 * len(st_info[1]), 20), html=f'<div style="text-align: left; font-size: 15px; padding: 4px; font-family: 黑体; color: #DDD">{st_info[1]}</div>', icon_anchor=(-16, 14))).add_to(metro_stations_name)
-    folium.plugins.Draw(True, 'data.geojson').add_to(m)
+    dr = folium.plugins.Draw(True, 'data.geojson')
+    dr.default_js = [('leaflet_draw_js', '/static/js/leaflet.draw.js')]
+    dr.default_css = [('leaflet_draw_css', '/static/css/leaflet.draw.css')]
+    dr.add_to(m)
 
     filenames = os.listdir('./static/geo_objects/metro/lines_view')
     for filename in filenames:
@@ -211,6 +202,14 @@ def index():
     m.default_js = _default_js
     popup0 = LatLngPopup()
     popup0.add_to(m)
+
+    # 搜索
+    districtsearch = plugins.Search(layer=districts_layer, geom_type="Polygon", placeholder="搜索行政区", collapsed=False,
+                                    search_label="district_name", search_zoom=5).add_to(m)
+    # homesearch = plugins.Search(layer=home_layer, geom_type="Point", placeholder="搜索玩家据点", collapsed=False,
+    #                                 search_label="", search_zoom=6).add_to(m)
+    homesearch = plugins.Search(layer=metro_lines, geom_type="Polyline", placeholder="搜索地铁线路", collapsed=False,
+                                    search_label="name", search_zoom=5).add_to(m)
     init_script = """
         var mapsPlaceholder = [];
         L.Map.addInitHook(function () {mapsPlaceholder.push(this);});
