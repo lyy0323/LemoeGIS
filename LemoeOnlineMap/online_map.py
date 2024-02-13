@@ -204,12 +204,12 @@ def index():
     popup0.add_to(m)
 
     # 搜索
-    districtsearch = plugins.Search(layer=districts_layer, geom_type="Polygon", placeholder="搜索行政区", collapsed=False,
-                                    search_label="district_name", search_zoom=5).add_to(m)
+    # districtsearch = plugins.Search(layer=districts_layer, geom_type="Polygon", placeholder="搜索行政区", collapsed=False,
+    #                                 search_label="district_name", search_zoom=5).add_to(m)
     # homesearch = plugins.Search(layer=home_layer, geom_type="Point", placeholder="搜索玩家据点", collapsed=False,
     #                                 search_label="", search_zoom=6).add_to(m)
-    homesearch = plugins.Search(layer=metro_lines, geom_type="Polyline", placeholder="搜索地铁线路", collapsed=False,
-                                    search_label="name", search_zoom=5).add_to(m)
+    # homesearch = plugins.Search(layer=metro_lines, geom_type="Polyline", placeholder="搜索地铁线路", collapsed=False,
+    #                                 search_label="name", search_zoom=5).add_to(m)
     init_script = """
         var mapsPlaceholder = [];
         L.Map.addInitHook(function () {mapsPlaceholder.push(this);});
