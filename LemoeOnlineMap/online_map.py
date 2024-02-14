@@ -9,6 +9,7 @@ from folium import Map
 from jinja2.environment import Template
 from grid import Grid
 import os
+import copy
 
 app = Flask(__name__)
 
@@ -110,12 +111,15 @@ def index():
             except:
                 continue
         popup_html += f'</span>\n<div style="font-size: 1em">({st_info[3]}, {st_info[4]})</div></div>'
-        folium.Marker(latlng(int(st_info[3]), int(st_info[4])), popup=folium.Popup(popup_html, parse_html=False, max_width=300), icon=folium.features.CustomIcon("./static/lemoe_icon.png", (20, 20))).add_to(metro_stations)
+        metro_station_icon = folium.features.CustomIcon(icon_image="./static/lemoe_icon.png", icon_size=(20, 20))
+        folium.Marker(latlng(int(st_info[3]), int(st_info[4])), popup=folium.Popup(popup_html, parse_html=False, max_width=300), icon=metro_station_icon).add_to(metro_stations)
         folium.Marker(latlng(int(st_info[3]), int(st_info[4])), icon=folium.features.DivIcon(icon_size=(12 + 15 * len(st_info[1]), 20), html=f'<div style="text-align: left; font-size: 15px; padding: 4px; border-radius: 10px; background-color: rgba(51, 51, 51, 0.8); font-family: 黑体; color: rgba(0, 0, 0, 0)">{st_info[1]}</div>', icon_anchor=(-15, 14))).add_to(metro_stations_name)
         folium.Marker(latlng(int(st_info[3]), int(st_info[4])), popup=folium.Popup(popup_html, lazy=True, parse_html=False, max_width=500), icon=folium.features.DivIcon(icon_size=(12 + 15 * len(st_info[1]), 20), html=f'<div style="text-align: left; font-size: 15px; padding: 4px; font-family: 黑体; color: #DDD">{st_info[1]}</div>', icon_anchor=(-16, 14))).add_to(metro_stations_name)
     dr = folium.plugins.Draw(True, 'data.geojson')
     dr.default_js = [('leaflet_draw_js', '/static/js/leaflet.draw.js')]
     dr.default_css = [('leaflet_draw_css', '/static/css/leaflet.draw.css')]
+    dr.draw_options = {'polyline': {'shapeOptions': {'color': '#ffffff', 'opacity': 0.8}},
+                       'polygon': {'shapeOptions': {'color': '#ffffff', 'opacity': 0.8}}}
     dr.add_to(m)
 
     filenames = os.listdir('./static/geo_objects/metro/lines_view')
