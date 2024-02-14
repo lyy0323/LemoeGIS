@@ -107,7 +107,7 @@ def index():
                 continue
         popup_html += f'</span>\n<div style="font-size: 1em">({st_info[3]}, {st_info[4]})</div></div>'
         metro_station_icon = folium.features.CustomIcon(icon_image="./static/lemoe_icon.webp", icon_size=(20, 20))
-        # folium.Marker(latlng(int(st_info[3]), int(st_info[4])), popup=folium.Popup(popup_html, parse_html=False, max_width=300), icon=metro_station_icon).add_to(metro_stations)
+        folium.Marker(latlng(int(st_info[3]), int(st_info[4])), popup=folium.Popup(popup_html, parse_html=False, max_width=300), icon=metro_station_icon).add_to(metro_stations)
         folium.Marker(latlng(int(st_info[3]), int(st_info[4])), icon=folium.features.DivIcon(icon_size=(12 + 15 * len(st_info[1]), 20), html=f'<div style="text-align: left; font-size: 15px; padding: 4px; border-radius: 10px; background-color: rgba(51, 51, 51, 0.8); font-family: 黑体; color: rgba(0, 0, 0, 0)">{st_info[1]}</div>', icon_anchor=(-15, 14))).add_to(metro_stations_name)
         folium.Marker(latlng(int(st_info[3]), int(st_info[4])), popup=folium.Popup(popup_html, lazy=True, parse_html=False, max_width=500), icon=folium.features.DivIcon(icon_size=(12 + 15 * len(st_info[1]), 20), html=f'<div style="text-align: left; font-size: 15px; padding: 4px; font-family: 黑体; color: #DDD">{st_info[1]}</div>', icon_anchor=(-16, 14))).add_to(metro_stations_name)
     dr = folium.plugins.Draw(True, 'data.geojson')
