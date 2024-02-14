@@ -1,15 +1,13 @@
 import json
 import folium
 import folium.plugins as plugins
-import jinja2
 from branca.element import MacroElement
-from flask import Flask, render_template, request
+from flask import Flask
 from colorpie import *
 from folium import Map
 from jinja2.environment import Template
 from grid import Grid
 import os
-import copy
 
 app = Flask(__name__)
 
@@ -55,7 +53,6 @@ _default_js = [
     ('font-size', '/static/js/font-size.js'),
     ('leaflet_draw', '/static/js/leaflet.draw.js'),
     ('grid-shift', '/static/js/grid-shift.js'),
-    # ('leaf_search', '/static/js/leaf.search.js')
     ]
 
 _default_css = [
@@ -67,8 +64,6 @@ _default_css = [
     ('awesome_rotate_css', '/static/css/leaflet.awesome.rotate.min.css'),  # noqa
     ('leaflet-draw', '/static/css/leaflet.draw.css'),
     ('close', '/static/css/close.css'),
-    # ('leaflet_search', '/static/css/leaflet-search.css'),
-    # ('leaflet-search-mobile', '/static/css/leaflet-search.mobile.css'),
     ]
 
 
@@ -128,7 +123,6 @@ def index():
         popup_html = f'<span width=100%><div align="center" style="background: {metro_color_dict[linename]}; border-radius: 0.5em; color: {bk_or_w(isDeep(metro_color_dict[linename]))}; padding: 0.2em; font-size: 1em; flex: 1"><b>{linename}</b></div></span>'
         folium.GeoJson(open(f'./static/geo_objects/metro/lines_view/{filename}', encoding='UTF-8').read(), popup=folium.GeoJsonPopup(fields=['ends'], aliases=[popup_html], labels=True, style='font-family: Microsoft Yahei; font-size: 1.6em'), style_function=lambda x: {"color": "#ffffff", "weight": 6, "opacity": 0.5}).add_to(metro_lines)
         folium.GeoJson(open(f'./static/geo_objects/metro/lines_view/{filename}', encoding='UTF-8').read(), popup=folium.GeoJsonPopup(fields=['ends'], aliases=[popup_html], labels=True, style='font-family: Microsoft Yahei; font-size: 1.6em'), style_function=lambda x: {"color": rtx(tuple(x['properties']['color'])), "weight": 3, "opacity": 0.9}).add_to(metro_lines)
-        # folium.GeoJson(f'./static/geo_objects/metro/lines_view/{filename}', popup=folium.Popup(popup_html, parse_html=False, max_width=500), style_function=lambda x: {"color": rtx(tuple(x['properties']['color']))}).add_to(metro_lines)
 
     # 行政区
     districts_layer = folium.FeatureGroup(name='行政区', show=False)
