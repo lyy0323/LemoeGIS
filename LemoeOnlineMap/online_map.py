@@ -2,14 +2,32 @@ import json
 import folium
 import folium.plugins as plugins
 from branca.element import MacroElement
-from flask import Flask
+from flask import Flask, g, make_response, request
 from colorpie import *
 from folium import Map
 from jinja2.environment import Template
 from grid import Grid
 import os
+from pyinstrument import Profiler
 
 app = Flask(__name__)
+profiler = Profiler()
+
+
+@app.before_request
+def before_request():
+    if "profile" in request.args:
+        g.profiler = Profiler()
+        g.profiler.start()
+
+
+@app.after_request
+def after_request(response):
+    if not hasattr(g, "profiler"):
+        return response
+    g.profiler.stop()
+    output_html = g.profiler.output_html()
+    return make_response(output_html)
 
 
 def latlng(x, z, rsrange=8192):
@@ -64,11 +82,13 @@ _default_css = [
     ('awesome_rotate_css', '/static/css/leaflet.awesome.rotate.min.css'),  # noqa
     ('leaflet-draw', '/static/css/leaflet.draw.css'),
     ('close', '/static/css/close.css'),
+    ('custom_icon', '/static/css/custom_divicon.css')
     ]
 
 
 @app.route('/')
 def index():
+    # profiler.start()
     tiles = '/static/map_db/{z}/{x}/{y}.webp'
     m: Map = folium.Map(location=[0, 0],
                         tiles=tiles,
@@ -97,19 +117,16 @@ def index():
         metro_color_dict[this_color_line[0]] = rtx((int(this_color_line[1]), int(this_color_line[2]), int(this_color_line[3])))
     for st in sts:
         st_info = st.split('\t')
-        popup_html = f'''<div align="center" padding: 0.2em style="font-size: 1.5em">
-        <div margin: 0.2em><b>&ensp;{st_info[1]}</b>（地铁站）<br></div><span width=100%>'''
+        popup_html = f'''<div class="mtr-popup">
+        <div style="margin: 0.2em"><b>&ensp;{st_info[1]}</b>（地铁站）<br></div>\n<div class="ingame-loc">({st_info[3]}, {st_info[4]})</div><hr><span width=100%>'''
         for metro_line in eval(st_info[2]):
-            try:
-                popup_html_addit = f'''<div align="center" style="background: {metro_color_dict[metro_line]}; border-radius: 0.5em; border: 0.2em; color: {bk_or_w(isDeep(metro_color_dict[metro_line]))}; padding: 0.2em; font-size: 1em; flex: 1"><b>{metro_line}</b></div>'''
-                popup_html += popup_html_addit
-            except:
-                continue
-        popup_html += f'</span>\n<div style="font-size: 1em">({st_info[3]}, {st_info[4]})</div></div>'
-        metro_station_icon = folium.features.CustomIcon(icon_image="./static/lemoe_icon.webp", icon_size=(20, 20))
+            popup_html_addit = f'''<div class="mtr-popup-line" style="background: {metro_color_dict[metro_line]}; color: {bk_or_w(isDeep(metro_color_dict[metro_line]))}"><b>{metro_line}</b></div>'''
+            popup_html += popup_html_addit
+        popup_html += f'</span></div>'
+        metro_station_icon = folium.features.DivIcon(icon_size=(20, 20), class_name="lemoe-mtr-logo")
         folium.Marker(latlng(int(st_info[3]), int(st_info[4])), popup=folium.Popup(popup_html, parse_html=False, max_width=300), icon=metro_station_icon).add_to(metro_stations)
-        folium.Marker(latlng(int(st_info[3]), int(st_info[4])), icon=folium.features.DivIcon(icon_size=(12 + 15 * len(st_info[1]), 20), html=f'<div style="text-align: left; font-size: 15px; padding: 4px; border-radius: 10px; background-color: rgba(51, 51, 51, 0.8); font-family: 黑体; color: rgba(0, 0, 0, 0)">{st_info[1]}</div>', icon_anchor=(-15, 14))).add_to(metro_stations_name)
-        folium.Marker(latlng(int(st_info[3]), int(st_info[4])), popup=folium.Popup(popup_html, lazy=True, parse_html=False, max_width=500), icon=folium.features.DivIcon(icon_size=(12 + 15 * len(st_info[1]), 20), html=f'<div style="text-align: left; font-size: 15px; padding: 4px; font-family: 黑体; color: #DDD">{st_info[1]}</div>', icon_anchor=(-16, 14))).add_to(metro_stations_name)
+        folium.Marker(latlng(int(st_info[3]), int(st_info[4])), icon=folium.features.DivIcon(icon_size=(12 + 15 * len(st_info[1]), 20), html=f'<div class="custom-divicon-metro-text">{st_info[1]}</div>', icon_anchor=(-15, 14))).add_to(metro_stations_name)
+        folium.Marker(latlng(int(st_info[3]), int(st_info[4])), popup=folium.Popup(popup_html, lazy=True, parse_html=False, max_width=500), icon=folium.features.DivIcon(icon_size=(12 + 15 * len(st_info[1]), 20), html=f'<div class="custom-divicon-metro-bg">{st_info[1]}</div>', icon_anchor=(-16, 14))).add_to(metro_stations_name)
     dr = folium.plugins.Draw(True, 'data.geojson')
     dr.default_js = [('leaflet_draw_js', '/static/js/leaflet.draw.js')]
     dr.default_css = [('leaflet_draw_css', '/static/css/leaflet.draw.css')]
@@ -120,8 +137,8 @@ def index():
     filenames = os.listdir('./static/geo_objects/metro/lines_view')
     for filename in filenames:
         linename = filename.strip('.geojson')
-        popup_html = f'<span width=100%><div align="center" style="background: {metro_color_dict[linename]}; border-radius: 0.5em; color: {bk_or_w(isDeep(metro_color_dict[linename]))}; padding: 0.2em; font-size: 1em; flex: 1"><b>{linename}</b></div></span>'
-        folium.GeoJson(open(f'./static/geo_objects/metro/lines_view/{filename}', encoding='UTF-8').read(), popup=folium.GeoJsonPopup(fields=['ends'], aliases=[popup_html], labels=True, style='font-family: Microsoft Yahei; font-size: 1.6em'), style_function=lambda x: {"color": "#ffffff", "weight": 6, "opacity": 0.5}).add_to(metro_lines)
+        popup_html = f'<div class="mtr-line-popup" style="background: {metro_color_dict[linename]}; color: {bk_or_w(isDeep(metro_color_dict[linename]))}"><b>{linename}</b></div>'
+        folium.GeoJson(open(f'./static/geo_objects/metro/lines_view/{filename}', encoding='UTF-8').read(), style_function=lambda x: {"color": "#ffffff", "weight": 6, "opacity": 0.5}).add_to(metro_lines)
         folium.GeoJson(open(f'./static/geo_objects/metro/lines_view/{filename}', encoding='UTF-8').read(), popup=folium.GeoJsonPopup(fields=['ends'], aliases=[popup_html], labels=True, style='font-family: Microsoft Yahei; font-size: 1.6em'), style_function=lambda x: {"color": rtx(tuple(x['properties']['color'])), "weight": 3, "opacity": 0.9}).add_to(metro_lines)
 
     # 行政区
@@ -131,7 +148,7 @@ def index():
     for district in districts:
         shp_data = open(f'./static/geo_objects/districts/{district}', encoding='UTF-8').read()
         district_data = json.loads(shp_data)["features"][0]["properties"]
-        popup_html = f'<span width=100%><div align="center" style="border-radius: 0.5em; padding: 0.2em; background: {district_data["fill_color"]}; font-size: 1em; flex: 1"><b>{district_data["district_ID"]}</b></div></span>'
+        popup_html = f'<div class="district-popup style="background: {district_data["fill_color"]}"><b>{district_data["district_ID"]}</b></div>'
         shp = folium.GeoJson(shp_data,
                              style_function=lambda x: {"fill": True, "fillColor": x["properties"]["fill_color"], "fillOpacity": 0.5, "color": "#FFFFFF", "opacity": 0.7},
                              popup=folium.GeoJsonPopup(fields=["district_name"], aliases=[popup_html], labels=True, style='font-family: Microsoft Yahei; font-size: 1.6em; font-weight: bolder'))
@@ -158,16 +175,17 @@ def index():
             else:
                 home_info[tuple(home_coord1)]["name"] = [home_info[tuple(home_coord1)]["name"], home_name]
     for loca, data in home_info.items():
+        home_icon = folium.features.DivIcon(icon_size=(20, 20), class_name="lemoe-home-logo")
         if type(data['name']) is str:
-            popup_html = f'<span width=100%><div align="center" style="border-radius: 0.5em; padding: 0.2em; font-size: 1em; flex: 1">{"&ensp;" * ("（" in data["name"])}{data["name"]}<br>{int(loca[0])}, {int(loca[1])}</div></span>'
-            folium.Marker(data["loc"], popup=folium.Popup(popup_html, parse_html=False, max_width=300), icon=folium.features.CustomIcon("./static/home_icon.webp", (20, 20))).add_to(home_layer)
-            folium.Marker(data["loc"], icon=folium.features.DivIcon(icon_size=(12 + 15 * len(data["name"]), 20), html=f'<div style="text-align: left; font-size: 15px; padding: 4px; border-radius: 10px; background-color: rgba(0, 0, 0, 0.8); font-family: 黑体; color: rgba(0, 0, 0, 0)">{data["name"]}</div>', icon_anchor=(-15, 14))).add_to(home_layer1)
-            folium.Marker(data["loc"], icon=folium.features.DivIcon(icon_size=(12 + 15 * len(data["name"]), 20), html=f'<div style="text-align: left; font-size: 15px; padding: 4px; font-family: 黑体; color: #DDD">{data["name"]}</div>', icon_anchor=(-16, 14))).add_to(home_layer1)
+            popup_html = f'<div class="custom-popup-home">{"&ensp;" * ("（" in data["name"])}{data["name"]}<br>{int(loca[0])}, {int(loca[1])}</div>'
+            folium.Marker(data["loc"], popup=folium.Popup(popup_html, parse_html=False, max_width=300), icon=home_icon).add_to(home_layer)
+            folium.Marker(data["loc"], icon=folium.features.DivIcon(icon_size=(12 + 15 * len(data["name"]), 20), html=f'<div class="custom-divicon-home-text">{data["name"]}</div>', icon_anchor=(-15, 14))).add_to(home_layer1)
+            folium.Marker(data["loc"], icon=folium.features.DivIcon(icon_size=(12 + 15 * len(data["name"]), 20), html=f'<div class="custom-divicon-home-bg">{data["name"]}</div>', icon_anchor=(-16, 14))).add_to(home_layer1)
         else:
-            popup_html = f'<span width=100%><div align="center" style="border-radius: 0.5em; padding: 0.2em; font-size: 1em; flex: 1">{"&ensp;" * ("（" in data["name"])}{"、".join(data["name"])}<br>{int(loca[0])}, {int(loca[1])}</div></span>'
-            folium.Marker(data["loc"], popup=folium.Popup(popup_html, parse_html=False, max_width=300), icon=folium.features.CustomIcon("./static/home_icon.webp", (20, 20))).add_to(home_layer)
-            folium.Marker(data["loc"], icon=folium.features.DivIcon(icon_size=(12 + 15 * len("、".join(data["name"])), 20), html=f'<div style="text-align: left; font-size: 15px; padding: 4px; border-radius: 10px; background-color: rgba(0, 0, 0, 0.8); font-family: 黑体; color: rgba(0, 0, 0, 0)">{"、".join(data["name"])}</div>', icon_anchor=(-15, 14))).add_to(home_layer1)
-            folium.Marker(data["loc"], icon=folium.features.DivIcon(icon_size=(12 + 15 * len("、".join(data["name"])), 20), html=f'<div style="text-align: left; font-size: 15px; padding: 4px; font-family: 黑体; color: #DDD">{"、".join(data["name"])}</div>', icon_anchor=(-16, 14))).add_to(home_layer1)
+            popup_html = f'<div class="custom-popup-home">{"&ensp;" * ("（" in data["name"])}{"、".join(data["name"])}<br>{int(loca[0])}, {int(loca[1])}</div>'
+            folium.Marker(data["loc"], popup=folium.Popup(popup_html, parse_html=False, max_width=300), icon=home_icon).add_to(home_layer)
+            folium.Marker(data["loc"], icon=folium.features.DivIcon(icon_size=(12 + 15 * len("、".join(data["name"])), 20), html=f'<div class="custom-divicon-home-text">{"、".join(data["name"])}</div>', icon_anchor=(-15, 14))).add_to(home_layer1)
+            folium.Marker(data["loc"], icon=folium.features.DivIcon(icon_size=(12 + 15 * len("、".join(data["name"])), 20), html=f'<div class="custom-divicon-home-bg">{"、".join(data["name"])}</div>', icon_anchor=(-16, 14))).add_to(home_layer1)
 
     """folium.PolyLine(  # polyline方法为将坐标用实线形式连接起来
             [latlng(-910, 1080, 2048),
@@ -214,6 +232,8 @@ def index():
     """
     m.get_root().script.add_child(folium.Element(init_script))
     Grid().add_to(m)
+    # profiler.stop()
+    # profiler.print()
     return m.get_root().render()
 
 

@@ -1,0 +1,97 @@
+.custom-divicon-home-text {
+    text-align: left;
+    font-size: 15px;
+    padding: 4px;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.8);
+    font-family: '黑体';
+    color: rgba(0, 0, 0, 0)
+}
+
+.custom-divicon-home-bg {
+    text-align: left;
+    font-size: 15px;
+    padding: 4px;
+    font-family: 黑体;
+    color: #DDD
+}
+
+.custom-divicon-metro-text {
+    text-align: left;
+    font-size: 15px;
+    padding: 4px;
+    border-radius: 10px;
+    background-color: rgba(51, 51, 51, 0.8);
+    font-family: '黑体';
+    color: rgba(0, 0, 0, 0)
+}
+
+.custom-divicon-metro-bg {
+    text-align: left;
+    font-size: 15px;
+    padding: 4px;
+    font-family: '黑体';
+    color: #DDD
+}
+
+.custom-popup-home {
+    text-align: center;
+    border-radius: 0.5em;
+    padding: 0.2em;
+    font-size: 1em;
+    flex: 1
+}
+
+.ingame-loc {
+    text-align: center;
+    color: #fff;
+    background: #333;
+    border-radius: 0.8em;
+    width: auto;
+    height: auto;
+    padding: 0.3em 0.5em 0.3em 0.5em
+}
+
+.lemoe-mtr-logo {
+    background-image: url("/static/lemoe_icon_64px.webp");
+    background-size: cover;
+    width: 20px;
+    height: 20px
+}
+
+.mtr-popup {
+    text-align: center;
+    font-size: 1.5em;
+    padding: 0.2em
+}
+
+.mtr-popup-line {
+    text-align: center;
+    border-radius: 0.5em;
+    border: 0.2em;
+    padding: 0.2em;
+    font-size: 1em;
+    flex: 1
+}
+
+.mtr-line-popup {
+    text-align: center;
+    border-radius: 0.5em;
+    padding: 0.2em;
+    font-size: 1em;
+    flex: 1
+}
+
+.district-popup {
+    border-radius: 0.5em;
+    padding: 0.2em;
+    font-size: 1em;
+    flex: 1
+}
+
+.lemoe-home-logo {
+    background-image: url("/static/home_icon.webp");
+    background-size: cover;
+    width: 20px;
+    height: 20px
+}
